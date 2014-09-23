@@ -1,0 +1,7 @@
+Simple JSON generator. To run-
+1. ruby json.rb 
+2. Follow the directions to manually input the schema and items
+3. Stop adding items by adding an item with all blank fields
+
+Currently this only supports single-level JSONs.
+
