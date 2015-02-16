@@ -1,7 +1,30 @@
-Simple JSON generator. To run-
+This is a collection of scripts for managing scrapers.
+
+Summary:
+jsongen.rb: Generates JSONs using a schema you specify. Can be used for
+anything, but it's good for making machine-readable lists of search terms.
+
+linkedin.rb: Runs the LinkedIn scraper on a set of search terms in a json.
+
+
+Detailed Instructions:
+jsongen.rb-
+Currently this only supports single level JSONs.
+
+To Run:
 1. ruby json.rb 
 2. Follow the directions to manually input the schema and items
 3. Stop adding items by adding an item with all blank fields
 
-Currently this only supports single-level JSONs.
 
+linkedin.rb-
+To run this, you need a JSON where every item has the following fields:
+Search Term: The phrase you want to search for.
+Degrees: The number of degrees you want to go out with "people also viewed"
+
+To Run:
+1. ruby linkedin.rb
+2. When prompted, type in the name of the file with the search terms
+3. When prompted, type in the name of the directory where you want to save
+results
+4. Wait. A new .json and .csv file will be generated for each search term
