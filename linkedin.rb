@@ -19,8 +19,12 @@ end
 file.each do |term|
   l = LinkedinData.new(term["Search Term"], term["Degrees"].to_i)
   scrapeout = l.getData
-  filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_")+".json"
+  filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json"
   File.write(filename, scrapeout)
   File.write(filename.gsub(".json", ".csv"), `json2csv #{filename}`)
 end
+
+# Move the pictures directory to the results folder
+`mvdir public #{resultsdir/public}`
+
 
