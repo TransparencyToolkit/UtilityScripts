@@ -21,7 +21,7 @@ file.each do |term|
   scrapeout = l.getData
   filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json"
   File.write(filename, scrapeout)
-  File.write(filename.gsub(".json", ".csv"), `json2csv #{filename}`)
+  File.write(filename.gsub(".json", ".csv"), `json2csv '#{filename}'`)
 end
 
 # Move the pictures directory to the results folder
