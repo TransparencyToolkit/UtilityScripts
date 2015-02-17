@@ -25,6 +25,6 @@ file.each do |term|
 end
 
 # Move the pictures directory to the results folder
-`mvdir public #{resultsdir/public}`
+`mv public #{resultsdir}/public`
 
 
