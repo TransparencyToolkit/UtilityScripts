@@ -17,7 +17,7 @@ end
 
 # Go through all terms and scrape
 file.each do |term|
-  if !File.exist?(term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json")
+  if !File.exist?(resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json")
     l = LinkedinData.new(term["Search Term"], term["Degrees"].to_i)
     scrapeout = l.getData
     filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json"
