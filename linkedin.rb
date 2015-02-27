@@ -27,6 +27,9 @@ file.each do |term|
 end
 
 # Move the pictures directory to the results folder
-`mv public #{resultsdir}/public`
-
+if !Dir.exist?(resultsdir+"/public")
+  `mv public #{resultsdir}/public`
+else
+  `cp public/uploads/pictures/* #{resultsdir}/public/uploads/pictures`
+end
 
