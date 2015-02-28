@@ -8,3 +8,4 @@ Firefox config transfer
 Sync:
 Data updates (both ways- update right dirs, don't delete new)
 Pull updates from git repo
+Update gems
