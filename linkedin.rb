@@ -31,5 +31,6 @@ if !Dir.exist?(resultsdir+"/public")
   `mv public #{resultsdir}/public`
 else
   `cp public/uploads/pictures/* #{resultsdir}/public/uploads/pictures`
+   `rm -r public `
 end
 

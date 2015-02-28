@@ -8,6 +8,8 @@ linkedin.rb: Runs the LinkedIn scraper on a set of search terms in a json.
 
 crypto/: Encrypt and decrypt all files in a directory with GPG.
 
+config/: Scripts for setup and syncing a scraping machine.
+
 
 Detailed Instructions:
 jsongen.rb-
@@ -51,3 +53,14 @@ Decrypt:
 files.
 3. Enter the password for your GPG key.
 4. Wait as the files are decrypted.
+
+
+config/-
+Setup and syncing scripts for a scraping machine.
+
+Setup:
+./install.sh
+
+Sync:
+./sync.sh
+

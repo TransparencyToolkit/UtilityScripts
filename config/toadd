@@ -1,0 +1,10 @@
+To install:
+Initial data syncing
+Load all git repos
+Download all gems (and check that rvm works)
+Copy sync script to homedir
+Firefox config transfer
+
+Sync:
+Data updates (both ways- update right dirs, don't delete new)
+Pull updates from git repo
