@@ -7,7 +7,7 @@ import (
   "io/ioutil"
   "bufio"
   "os"
-  "os/exec"
+//  "os/exec"
   "strings"
 )
 
@@ -45,11 +45,11 @@ func main(){
     if _, err := os.Stat(termfile); os.IsNotExist(err){
       results := []byte(indeedscraper.GetResumes(item["Search Term"], ""))
       ioutil.WriteFile(termfile, results, 0644)
-
+      
       // Make CSV too
-      cmd := exec.Command("json2csv", termfile)
-      stdout, _ := cmd.Output()
-      ioutil.WriteFile(strings.Replace(termfile, ".json", ".csv", -1), stdout, 0644)
+     // cmd := exec.Command("json2csv", termfile)
+     // stdout, _ := cmd.Output()
+     // ioutil.WriteFile(strings.Replace(termfile, ".json", ".csv", -1), stdout, 0644)
     }
   }
 }

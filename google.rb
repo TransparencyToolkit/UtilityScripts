@@ -1,5 +1,5 @@
 require 'json'
-require 'linkedindata'
+require 'generalscraper'
 require 'fileutils'
 require 'json2csv'
 
@@ -21,8 +21,8 @@ proxy_list = gets.strip
 # Go through all terms and scrape
 file.each do |term|
   if !File.exist?(resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json")
-    l = LinkedinData.new(term["Degrees"].to_i, proxy_list)
-    scrapeout = l.getByKeywords(term["Search Term"])
+    l = GeneralScraper.new(term["Operators"], term["Search Term"], proxy_list)
+    scrapeout = l.getData
     filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json"
     File.write(filename, scrapeout)
     File.write(filename.gsub(".json", ".csv"), `json2csv '#{filename}'`)
@@ -33,7 +33,7 @@ end
 if !Dir.exist?(resultsdir+"/public")
   `mv public #{resultsdir}/public`
 else
-  `cp public/uploads/pictures/* #{resultsdir}/public/uploads/pictures`
+  `cp public/uploads/* #{resultsdir}/public/uploads/`
    `rm -r public `
 end
 
