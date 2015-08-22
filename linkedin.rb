@@ -21,7 +21,7 @@ proxy_list = gets.strip
 # Go through all terms and scrape
 file.each do |term|
   if !File.exist?(resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json")
-    l = LinkedinData.new(term["Degrees"].to_i, proxy_list)
+    l = LinkedinData.new(term["Degrees"].to_i, proxy_list, false, false)
     scrapeout = l.getByKeywords(term["Search Term"])
     filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json"
     File.write(filename, scrapeout)
