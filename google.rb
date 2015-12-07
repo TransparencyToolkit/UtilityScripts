@@ -21,7 +21,7 @@ proxy_list = gets.strip
 # Go through all terms and scrape
 file.each do |term|
   if !File.exist?(resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json")
-    l = GeneralScraper.new(term["Operators"], term["Search Term"], proxy_list)
+    l = GeneralScraper.new(term["Operators"], term["Search Term"], proxy_list, false)
     scrapeout = l.getData
     filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json"
     File.write(filename, scrapeout)

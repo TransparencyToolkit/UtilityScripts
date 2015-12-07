@@ -1,7 +1,16 @@
 require 'json'
-require 'linkedindata'
+require 'linkedincrawler'
 require 'fileutils'
-require 'json2csv'
+#require 'json2csv'
+
+log = Array.new
+# Logs stats about search term run
+def log_stats(scrapeout, term, start_time)
+  end_time = Time.now
+  runtime = end_time - start_time
+  log.push(runtime: runtime, start_time: start_time, end_time: end_time, term: term, length: JSON.parse(scrapeout).length)
+end
+
 
 # Read JSON with search terms
 puts "Where is the list of terms to scrape?"
@@ -18,22 +27,42 @@ end
 puts "Proxy list location:"
 proxy_list = gets.strip
 
+puts "CAPTCHA solving key:"
+captcha_key = gets.strip
+
 # Go through all terms and scrape
 file.each do |term|
+  `rm -r /tmp/webdriver*`
   if !File.exist?(resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json")
-    l = LinkedinData.new(term["Degrees"].to_i, proxy_list, false, false)
-    scrapeout = l.getByKeywords(term["Search Term"])
-    filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json"
-    File.write(filename, scrapeout)
-    File.write(filename.gsub(".json", ".csv"), `json2csv '#{filename}'`)
+    start_time = Time.now
+    begin
+      # Run term
+      requests_linkedin = RequestManager.new(proxy_list, [1, 2], 5)
+      requests_google = RequestManager.new(proxy_list, [1, 3], 1)
+      c = LinkedinCrawler.new(term["Search Term"], 1, requests_linkedin, requests_google, {captcha_key: captcha_key})
+      c.search
+      scrapeout =  c.gen_json
+      
+      # Write to file
+      filename = resultsdir+"/"+term["Search Term"].gsub(" ", "_").gsub("/", "-")+".json"
+      File.write(filename, scrapeout)
+
+      # Log performance
+      log_stats(scrapeout, term["Search Term"], start_time)
+    rescue => error
+      File.write(term["Search Term"].gsub(" ", "_")+".errors", error)
+    end
   end
 end
 
+
+File.write(resultsdir+"/log.txt", JSON.pretty_generate(log))
+
 # Move the pictures directory to the results folder
-if !Dir.exist?(resultsdir+"/public")
-  `mv public #{resultsdir}/public`
+if !Dir.exist?(resultsdir+"/pictures")
+  `mv public #{resultsdir}/pictures`
 else
-  `cp public/uploads/pictures/* #{resultsdir}/public/uploads/pictures`
+  `cp pictures/* #{resultsdir}/pictures`
    `rm -r public `
 end
 

@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'gpgme'
+require 'pry'
 
 class Encrypt
   def initialize
@@ -50,11 +51,17 @@ class Encrypt
 
       File.open(dir+"/"+file) do |in_file|
         File.open((dir+"/"+file.gsub(".gpg", "")), 'wb') do |out_file|
-          crypto.decrypt in_file, :output => out_file
+#          binding.pry
+          begin
+ #           binding.pry
+            crypto.decrypt in_file, :output => out_file
+          rescue
+            binding.pry
+          end
         end
       end
       
-      File.delete(dir+"/"+file)
+     # File.delete(dir+"/"+file)
     end
   end
 
