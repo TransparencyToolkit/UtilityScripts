@@ -49,9 +49,9 @@ class ProcessResultsLinkedin
     f_with_tools.each do |item|
       itemhash = item
       item[:doc_modified] = check_removed(item)
-      item[:data_source] = "LinkedIn"
+      item[:doc_source] = "LinkedIn"
       item[:full_name] = item["name"] if item["name"]
-      item[:search_terms] = get_terms(file)
+      item[:search_terms] = get_terms(file) if !item["search_terms"]
       outarr.push(itemhash)
     end
 
@@ -89,5 +89,5 @@ class ProcessResultsLinkedin
   end
 end
 
-p = ProcessResultsLinkedin.new("/home/shidash/test_data/li", "/home/shidash/processed_test_data", "/home/shidash/extract_list.json", "/home/shidash/removed_test.json")
-p.process_each_file("/home/shidash/test_data/li")
+p = ProcessResultsLinkedin.new("/home/shidash/Data/versions_test", "/home/shidash/Data/processed_test_data", "/home/shidash/extract_list.json", "/home/shidash/removed_test.json")
+p.process_each_file("/home/shidash/Data/versions_test")

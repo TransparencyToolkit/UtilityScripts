@@ -47,8 +47,8 @@ class ProcessResultsIndeed
     outarr = Array.new
     f_with_tools.each do |item|
       itemhash = item
-      item[:data_source] = "Indeed"
-      item[:search_terms] = get_terms(file)
+      item[:doc_source] = "Indeed"
+      item[:search_terms] = get_terms(file) if !item["search_terms"]
       outarr.push(itemhash)
     end
 
