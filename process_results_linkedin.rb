@@ -6,7 +6,7 @@ class ProcessResultsLinkedin
     @input_dir = input_dir
     @output_dir = output_dir
 
-    @remove_list = remove_list
+#    @remove_list = JSON.parse(File.read(remove_list))
     @extract_list = extract_list
   end
 
@@ -18,7 +18,11 @@ class ProcessResultsLinkedin
         process_each_file(dir+"/"+file)
       elsif file.include?(".json")
         create_write_dirs(dir.gsub(@input_dir, @output_dir))
-        File.write(get_write_dir(dir, file), process(dir+"/"+file))
+        begin
+          File.write(get_write_dir(dir, file), process(dir+"/"+file))
+        rescue
+          binding.pry
+        end
       end
     end
   end
@@ -43,19 +47,24 @@ class ProcessResultsLinkedin
   # Process file
   def process(file)
     f = File.read(file)
-    f_with_tools = get_tools(f)
-    
+    #f_with_tools = get_tools(f)
+    f_with_tools = JSON.parse(f)
     outarr = Array.new
     f_with_tools.each do |item|
       itemhash = item
-      item[:doc_modified] = check_removed(item)
-      item[:doc_source] = "LinkedIn"
-      item[:full_name] = item["name"] if item["name"]
-      item[:search_terms] = get_terms(file) if !item["search_terms"]
+      itemhash["skills"] = remove_see_more(item["skills"])
+  #    item[:doc_modified] = check_removed(item)
+  #    item[:doc_source] = "LinkedIn"
+  #    item[:full_name] = item["name"] if item["name"]
+  #    item[:search_terms] = get_terms(file) if !item["search_terms"]
       outarr.push(itemhash)
     end
 
-    return JSON.pretty_generate(outarr)
+    return JSON.pretty_generate(f_with_tools)
+  end
+
+  def remove_see_more(skills)
+    return skills.select{|skill| (!skill.include?("See ") && !skill.include?(" anzeigen"))} if skills
   end
 
   # Get search terms
@@ -66,7 +75,8 @@ class ProcessResultsLinkedin
 
   # Check if item was removed
   def check_removed(item)
-    removed = JSON.parse(File.read(@remove_list))
+    #   removed = JSON.parse(File.read(@remove_list))
+    removed = @remove_list
     id = item["profile_url"]
    
     # Go through and see if it is in file
@@ -89,5 +99,6 @@ class ProcessResultsLinkedin
   end
 end
 
-p = ProcessResultsLinkedin.new("/home/shidash/Data/versions_test", "/home/shidash/Data/processed_test_data", "/home/shidash/extract_list.json", "/home/shidash/removed_test.json")
-p.process_each_file("/home/shidash/Data/versions_test")
+p = ProcessResultsLinkedin.new("/mnt/disk/icwatch_update_processed_2/linkedin", "/mnt/disk/icwatch_update_processed_2/linkedin2", "/home/shidash/extract_list.json", "/home/shidash/removed_profiles.json")
+p.process_each_file("/mnt/disk/icwatch_update_processed_2/linkedin")
+
