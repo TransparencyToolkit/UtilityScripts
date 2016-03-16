@@ -1,5 +1,6 @@
 require 'json'
-require 'linkedincrawler'
+#require 'linkedincrawler'
+load "/home/shidash/Code/LinkedinCrawler/lib/linkedincrawler.rb"
 require 'fileutils'
 #require 'json2csv'
 
@@ -39,7 +40,9 @@ file.each do |term|
       # Run term
       requests_linkedin = RequestManager.new(proxy_list, [1, 2], 5)
       requests_google = RequestManager.new(proxy_list, [1, 3], 1)
-      c = LinkedinCrawler.new(term["Search Term"], 1, requests_linkedin, requests_google, {captcha_key: captcha_key})
+      requests_google2 = RequestManager.new(proxy_list, [1, 3], 1)
+      
+      c = LinkedinCrawler.new(term["Search Term"], 1, requests_linkedin, requests_google, requests_google2, {captcha_key: captcha_key})
       c.search
       scrapeout =  c.gen_json
       
@@ -48,15 +51,15 @@ file.each do |term|
       File.write(filename, scrapeout)
 
       # Log performance
-      log_stats(scrapeout, term["Search Term"], start_time)
+#      log_stats(scrapeout, term["Search Term"], start_time)
     rescue => error
-      File.write(term["Search Term"].gsub(" ", "_")+".errors", error)
+ #     File.write(term["Search Term"].gsub(" ", "_")+".errors", error)
     end
   end
 end
 
 
-File.write(resultsdir+"/log.txt", JSON.pretty_generate(log))
+#File.write(resultsdir+"/log.txt", JSON.pretty_generate(log))
 
 # Move the pictures directory to the results folder
 if !Dir.exist?(resultsdir+"/pictures")
