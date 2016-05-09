@@ -1,4 +1,5 @@
 require 'json'
+require 'pry'
 
 class JsonGen
   def initialize
@@ -34,6 +35,14 @@ class JsonGen
     end
   end
 
+  # Process array vals (don't have quotes in array)
+  def parse_array_val(value)
+    if value.include?("[") && value.include?("]")
+      return value.gsub("[", "").gsub("]", "").split(", ")
+    else return value
+    end
+  end
+
   # Adds item to JSON
   def add
     itemhash = Hash.new
@@ -43,7 +52,8 @@ class JsonGen
     # Add items and track if there is an empty value
     @structure.each do |i|
       print i+": "
-      value = gets.chomp
+      value = parse_array_val(gets.chomp)
+      
       flag = 1 if !value.empty? || flag == 1
       itemhash[i] = value
     end
