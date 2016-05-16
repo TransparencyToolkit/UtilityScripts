@@ -1,6 +1,9 @@
+KeepGrabbing
+============
+
 This is a collection of scripts for managing scrapers.
 
-Summary:
+Summary
 jsongen.rb: Generates JSONs using a schema you specify. Can be used for
 anything, but it's good for making machine-readable lists of search terms.
 
@@ -37,7 +40,10 @@ results
 crypto/-
 Encrypt files with encrypt.rb and decrypt with decrypt.rb.
 
-Encrypt:
+### Encrypt & Decrypting Files
+
+**Encrypting**
+
 1. ruby encrypt.rb
 2. When prompted, type the email address of recipient (keys must be imported
 into GPG already). You can add as many recipients as you want.
@@ -47,12 +53,15 @@ recipients.
 results.
 5. Wait as the files are encrypted.
 
-Decrypt:
+**Decrypting**
+
 1. ruby decrypt.rb
 2. When prompted, enter the path to the directory where you want to decrypt
 files.
 3. Enter the password for your GPG key.
 4. Wait as the files are decrypted.
+
+---
 
 
 config/-
@@ -64,3 +73,16 @@ Setup:
 Sync:
 ./sync.sh
 
+
+---
+
+### Documents
+
+1. Install system dependencies for Debian
+
+```
+sudo apt-get install graphicsmagick poppler-data ghostscript tesseract-ocr pdftk libreoffice
+```
+
+2. Install Ruby dependencies `bundle install` from in the directory
+3. Run `ruby documents.rb path/to/files/`
