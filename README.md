@@ -98,7 +98,15 @@ ruby documents.rb path/to/files/
 
 ### Emails
 
-1. Run email converter script with
+1. Run email script with OKFNs [GiveMeText](http://givemetext.okfnlabs.org) 
+converting documents
+
+```
+ruby emails.rb /full/path/to/your/documents
+```
+
+1. Run email script with local Tika for converting documents
+2. [Setup Local Tika](https://github.com/TransparencyToolkit/Harvester#install-tika--tesseract-optional))
 
 ```
 ruby emails.rb --tika=http://localhost:9998 /full/path/to/your/documents
