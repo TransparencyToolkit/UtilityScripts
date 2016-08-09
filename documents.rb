@@ -1,7 +1,7 @@
 require 'optparse'
 require 'ostruct'
-require 'dircrawl'
-require 'parsefile'
+load '/home/user/Ruby/gems/DirCrawl/lib/dircrawl.rb'
+load '/home/user/Ruby/gems/ParseFile/lib/parsefile.rb'
 
 class GrabLoadFile
 
@@ -26,13 +26,21 @@ class GrabLoadFile
     end
 
     include = lambda do
-      require 'parsefile'
+		load '/home/user/Ruby/gems/ParseFile/lib/parsefile.rb'
     end
 
     # Call dircrawl
+    # TODO: check for trailing slash
     out_dir = @dir+"_output"
-    d = DirCrawl.new(@dir, out_dir, "_terms", false, 
-                     block, include, @dir, out_dir, @tika)
+
+	# Create folder for attachments
+	extras = lambda do |out_dir|
+	end
+
+	puts "- getting docs from: " + @dir
+	puts "- saving to: " + out_dir
+
+    d = DirCrawl.new(@dir, out_dir, "_terms", false, block, include, extras, @dir, out_dir, @tika)
     JSON.parse(d.get_output)
   end
 
@@ -45,7 +53,7 @@ OptionParser.new do |opt|
   opt.on('-t', '--tika TIKA', 'Use a local Tika server') { |o| options.tika = o }
 end.parse!
 
-puts "Grabbing some documents...."
+puts "KeepGrabbing documents"
 
 loadfile = GrabLoadFile.new(options, ARGV)
 loadfile.run()

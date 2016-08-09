@@ -79,7 +79,7 @@ Sync:
 ---
 
 
-### Documents
+### Installing
 
 1. Install system dependencies for Debian
 
@@ -92,8 +92,23 @@ poppler-utils poppler-data ghostscript tesseract-ocr pdftk libreoffice
 2. Install Ruby dependencies `bundle install` from in the directory
 3. Run the document converter script
 
+By default, converting documents is done with OKFNs [GiveMeText](http://givemetext.okfnlabs.org) 
+tool. This *IS NOT GOOD FOR SENSITIVE DOCUMENTS* as it does this over normal
+HTTP clear internet ZOMG... O.o
+
+However, you can setup and run a local Tika for converting documents yourself!
+
+4. [Setup Local Tika](https://github.com/TransparencyToolkit/Harvester#install-tika--tesseract-optional))
+5. Run 
+
+### Documents
+
 ```
 ruby documents.rb path/to/files/
+```
+
+```
+ruby documents.rb --tika=http://localhost:9998 /full/path/to/your/documents
 ```
 
 ### Emails
