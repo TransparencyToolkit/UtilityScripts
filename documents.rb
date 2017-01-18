@@ -1,7 +1,7 @@
 require 'optparse'
 require 'ostruct'
-load '/home/user/Ruby/gems/DirCrawl/lib/dircrawl.rb'
-load '/home/user/Ruby/gems/ParseFile/lib/parsefile.rb'
+require 'dircrawl'
+require 'parsefile'
 
 class GrabLoadFile
 
@@ -26,7 +26,7 @@ class GrabLoadFile
     end
 
     include = lambda do
-		load '/home/user/Ruby/gems/ParseFile/lib/parsefile.rb'
+		require 'parsefile'
     end
 
     # Call dircrawl
@@ -40,7 +40,7 @@ class GrabLoadFile
 	puts "- getting docs from: " + @dir
 	puts "- saving to: " + out_dir
 
-    d = DirCrawl.new(@dir, out_dir, "_terms", false, block, include, extras, @dir, out_dir, @tika)
+    d = DirCrawl.new(@dir, out_dir, "_terms", false, block, include, extras, @dir, nil, out_dir, @tika)
     JSON.parse(d.get_output)
   end
 
