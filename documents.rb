@@ -16,11 +16,10 @@ class GrabLoadFile
   # Load in docs
   def run
 
-	puts "Using tika value"
-	puts @tika
+	puts "Use Tika instance: " + @tika
 
-    # Make blocks for dircrawl
-    block = lambda do |file, in_dir, out_dir, tika|
+    # Gets run as "@process_block" in DirCrawl
+    parsefile = lambda do |file, in_dir, out_dir, tika|
       p = ParseFile.new(file, in_dir, out_dir, tika)
       p.parse_file
     end
@@ -29,7 +28,7 @@ class GrabLoadFile
 		require 'parsefile'
     end
 
-    # Call dircrawl
+    # Where files are saved
     # TODO: check for trailing slash
     out_dir = @dir+"_output"
 
@@ -37,10 +36,13 @@ class GrabLoadFile
 	extras = lambda do |out_dir|
 	end
 
-	puts "- getting docs from: " + @dir
-	puts "- saving to: " + out_dir
+	puts "Getting documents: " + @dir
+	puts "Saving to: " + out_dir
 
-    d = DirCrawl.new(@dir, out_dir, "_terms", false, block, include, extras, @dir, nil, out_dir, @tika)
+	# Need to have "@dir, out_dir" declared twice, as the latter time is for
+	# arguments passed to the block that dircrawl calls
+    d = DirCrawl.new(@dir, out_dir, "_terms", false, parsefile, include, extras,
+"log", nil, @dir, out_dir, @tika)
     JSON.parse(d.get_output)
   end
 
@@ -53,7 +55,7 @@ OptionParser.new do |opt|
   opt.on('-t', '--tika TIKA', 'Use a local Tika server') { |o| options.tika = o }
 end.parse!
 
-puts "KeepGrabbing documents"
+puts "KeepGrabbing: documents"
 
 loadfile = GrabLoadFile.new(options, ARGV)
 loadfile.run()

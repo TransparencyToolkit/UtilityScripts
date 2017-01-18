@@ -79,7 +79,7 @@ Sync:
 ---
 
 
-### Installing
+## Installing
 
 1. Install system dependencies for Debian
 
@@ -92,38 +92,45 @@ poppler-utils poppler-data ghostscript tesseract-ocr pdftk libreoffice
 2. Install Ruby dependencies `bundle install` from in the directory
 3. Run the document converter script
 
-By default, converting documents is done with OKFNs [GiveMeText](http://givemetext.okfnlabs.org) 
-tool. This *IS NOT GOOD FOR SENSITIVE DOCUMENTS* as it does this over normal
-HTTP clear internet ZOMG... O.o
-
-However, you can setup and run a local Tika for converting documents yourself!
+By default, documents and images will be processed with the
+[GiveMeText](http://givemetext.okfnlabs.org) tool, but this **IS NOT GOOD FOR
+SENSITIVE DOCUMENTS** as it sends HTTP requests over the non-encrypted internet
+**O.o** However, you can run a custom Tika server for converting documents
+yourself.
 
 4. [Setup Local Tika](https://github.com/TransparencyToolkit/Harvester#install-tika--tesseract-optional))
 5. Run 
 
+---
+
+## Running
+
+You can process either emails or normal text documents using the following
+scripts:
+
 ### Documents
 
-```
-ruby documents.rb path/to/files/
-```
+Run the script to convert documents in JSON as well as with local Tika instance
 
 ```
-ruby documents.rb --tika=http://localhost:9998 /full/path/to/your/documents
+ruby documents.rb path/to/your/files/
+ruby documents.rb --tika=http://localhost:9998 /path/to/your/documents
 ```
 
 ### Emails
 
-1. Run email script with OKFNs [GiveMeText](http://givemetext.okfnlabs.org) 
-converting documents
+Run email script to convert emails to JSON
 
 ```
-ruby emails.rb /full/path/to/your/documents
+ruby emails.rb /path/to/your/emails
 ```
 
-1. Run email script with local Tika for converting documents
-2. [Setup Local Tika](https://github.com/TransparencyToolkit/Harvester#install-tika--tesseract-optional))
+**Attachments**
+
+If your emails generated an `attachments/` folder, then run the `documents.rb`
+script as described above to convert attachments into JSON as well
 
 ```
-ruby emails.rb --tika=http://localhost:9998 /full/path/to/your/documents
+ruby documents.rb --tika=http://localhost:9998 /path/to/youre/emails_output/attachments
 ```
 
