@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'selenium-webdriver', '~> 2.53.4'
 gem 'parsefile'
 gem 'dircrawl'
 gem 'emailparser'
