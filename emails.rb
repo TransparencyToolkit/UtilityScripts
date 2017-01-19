@@ -32,7 +32,7 @@ class GrabLoadEmail
     end
 
     # Run DirCrawl
-    d = DirCrawl.new(@dir, out_dir, "_terms", false, emailparser, include, extras, "log", nil, out_dir)
+    d = DirCrawl.new(@dir, out_dir, "_terms", false, emailparser, include, extras, "log", nil, @dir, out_dir)
     JSON.parse(d.get_output)
   end
 

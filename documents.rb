@@ -41,8 +41,7 @@ class GrabLoadFile
 
 	# Need to have "@dir, out_dir" declared twice, as the latter time is for
 	# arguments passed to the block that dircrawl calls
-    d = DirCrawl.new(@dir, out_dir, "_terms", false, parsefile, include, extras,
-"log", nil, @dir, out_dir, @tika)
+    d = DirCrawl.new(@dir, out_dir, "_terms", false, parsefile, include, extras, "log", nil, @dir, out_dir, @tika)
     JSON.parse(d.get_output)
   end
 
