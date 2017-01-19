@@ -5,11 +5,13 @@ This is a collection of scripts for managing scrapers
 
 **Summary**
 
-- `jsongen.rb` Generates JSONs using a schema you specify. Can be used for 
+- `jsongen.rb` - Generates JSONs using a schema you specify. Can be used for 
 anything, but it's good for making machine-readable lists of search terms
-- `linkedin.rb` Runs the LinkedIn scraper on a set of search terms in a json
-- `crypto` Encrypt and decrypt all files in a directory with GPG
-- `config` Scripts for setup and syncing a scraping machine
+- `linkedin.rb` - Runs the LinkedIn scraper on a set of search terms in a json
+- `crypto` - Encrypt and decrypt all files in a directory with GPG
+- `config` - Scripts for setup and syncing a scraping machine
+- `documents.rb` - Convert document files to JSON
+- `emails.rb` - Convert email files to JSON
 
 ### Detailed Instructions
 
@@ -33,17 +35,12 @@ To Run:
 
 1. Run `ruby linkedin.rb`
 2. When prompted, type in the name of the file with the search terms
-3. When prompted, type in the name of the directory where you want to save
-results
+3. When prompted, type in the name of the directory where you want to save results
 4. Wait. A new .json and .csv file will be generated for each search term
 
+`crypto/` - Encrypt files with encrypt.rb and decrypt with decrypt.rb.
 
-crypto/-
-Encrypt files with encrypt.rb and decrypt with decrypt.rb.
-
----
-
-### Encrypt & Decrypting Files
+## Encrypt & Decrypting Files
 
 **Encrypting**
 
@@ -66,18 +63,14 @@ files.
 
 ---
 
+`config/` - Setup and syncing scripts for a scraping machine
 
-config/-
-Setup and syncing scripts for a scraping machine
+Setup & Sync:
 
-Setup:
+```
 ./install.sh
-
-Sync:
 ./sync.sh
-
----
-
+```
 
 ## Installing
 
@@ -93,15 +86,11 @@ poppler-utils poppler-data ghostscript tesseract-ocr pdftk libreoffice
 3. Run the document converter script
 
 By default, documents and images will be processed with the
-[GiveMeText](http://givemetext.okfnlabs.org) tool, but this **IS NOT GOOD FOR
-SENSITIVE DOCUMENTS** as it sends HTTP requests over the non-encrypted internet
-**O.o** However, you can run a custom Tika server for converting documents
-yourself.
+[GiveMeText](http://givemetext.okfnlabs.org) tool, but **IS NOT GOOD FOR
+SENSITIVE DOCUMENTS** as it sends normal HTTP requests over the internet. 
+However, you can run a custom Tika server for converting documents yourself.
 
 4. [Setup Local Tika](https://github.com/TransparencyToolkit/Harvester#install-tika--tesseract-optional))
-5. Run 
-
----
 
 ## Running
 
@@ -133,4 +122,3 @@ script as described above to convert attachments into JSON as well
 ```
 ruby documents.rb --tika=http://localhost:9998 /path/to/youre/emails_output/attachments
 ```
-

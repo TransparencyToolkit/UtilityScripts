@@ -12,32 +12,33 @@ class GrabLoadEmail
   # Load in docs
   def run
 
-    # Make blocks for dircrawl
-    block = lambda do |file, in_dir, out_dir|
-      p = Emailparser.new(file, out_dir, "attachments/")
-      p.parse_message
+    # Gets run as "@process_block" in DirCrawl
+    emailparser = lambda do |file, in_dir, out_dir|
+      p = EmailParser.new(file, out_dir, "attachments/")
+      JSON.pretty_generate(p.parse_message)
     end
 
     include = lambda do
       require 'emailparser'
     end
 
-    # Call dircrawl
+    # Where files are saved
     out_dir = @dir+"_output"
 
     # Create folder for attachments
     extras = lambda do |out_dir|
-      puts "created attachment directory"
+      puts "Created attachment directory"
       Dir.mkdir(out_dir + "attachments") if !Dir.exist?(out_dir + "attachments")
     end
 
-    d = DirCrawl.new(@dir, out_dir, "_terms", false, block, include, extras, "log", @dir, out_dir)
+    # Run DirCrawl
+    d = DirCrawl.new(@dir, out_dir, "_terms", false, emailparser, include, extras, "log", nil, out_dir)
     JSON.parse(d.get_output)
   end
 
 end
 
-puts "Grabbing some emails...."
+puts "KeepGrabbing: emails"
 
 loadfile = GrabLoadEmail.new(ARGV[0])
 loadfile.run()
