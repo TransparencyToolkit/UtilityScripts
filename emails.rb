@@ -1,5 +1,7 @@
-require 'emailparser'
-require 'dircrawl'
+#require 'emailparser'
+load '/home/user/Ruby/gems/EmailParser/lib/emailparser.rb'
+#require 'dircrawl'
+load '/home/user/Ruby/gems/DirCrawl/lib/dircrawl.rb'
 require 'pry'
 
 class GrabLoadEmail
@@ -19,7 +21,8 @@ class GrabLoadEmail
     end
 
     include = lambda do
-      require 'emailparser'
+      #require 'emailparser'
+      load '/home/user/Ruby/gems/EmailParser/lib/emailparser.rb'
     end
 
     # Where files are saved
@@ -29,6 +32,7 @@ class GrabLoadEmail
     extras = lambda do |out_dir|
       puts "Created attachment directory"
       Dir.mkdir(out_dir + "attachments") if !Dir.exist?(out_dir + "attachments")
+	  return true
     end
 
     # Run DirCrawl
