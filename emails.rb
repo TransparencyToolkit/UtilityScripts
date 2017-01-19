@@ -15,7 +15,7 @@ class GrabLoadEmail
     # Gets run as "@process_block" in DirCrawl
     emailparser = lambda do |file, in_dir, out_dir|
       p = EmailParser.new(file, out_dir, "attachments/")
-      JSON.pretty_generate(p.parse_message)
+      p.parse_message
     end
 
     include = lambda do
