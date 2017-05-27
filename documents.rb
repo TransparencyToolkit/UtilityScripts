@@ -28,21 +28,25 @@ class GrabLoadFile
 		require 'parsefile'
     end
 
-    # Where files are saved
-    # TODO: check for trailing slash
-    out_dir = @dir+"_output"
-
 	# Create folder for attachments
 	extras = lambda do |out_dir|
 	end
 
-	puts "Getting documents: " + @dir
-	puts "Saving to: " + out_dir
+	
+  	path_params = {
+		path: @dir,
+		output_dir: "#{@dir}_output",
+		ignore_includes: "_terms",
+		failure_mode: "log"
+	}
 
-	# Need to have "@dir, out_dir" declared twice, as the latter time is for
-	# arguments passed to the block that dircrawl calls
-    d = DirCrawl.new(@dir, out_dir, "_terms", false, parsefile, include, extras, "log", nil, @dir, out_dir, @tika)
-    JSON.parse(d.get_output)
+	cm_hash = nil
+
+	puts "Getting documents: " + @dir
+	puts "Saving to: " + path_params[:output_dir]
+
+	# Taken from Harvester/app/crawlers/load_files.rb
+    d = DirCrawl.new(path_params, parsefile, include, extras, cm_hash, path_params[:path], path_params[:output_dir], @tika)
   end
 
 end
