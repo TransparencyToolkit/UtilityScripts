@@ -18,20 +18,15 @@ class GrabLoadFile
 
 	puts "Use Tika instance: " + @tika
 
-    # Gets run as "@process_block" in DirCrawl
-    parsefile = lambda do |file, in_dir, out_dir, tika|
-      p = ParseFile.new(file, in_dir, out_dir, tika)
+    # Runs as "@process_block" in DirCrawl
+    parsefile = lambda do |file, dir, output_dir, tika|
+      p = ParseFile.new(file, dir, output_dir, tika)
       p.parse_file
     end
 
     include = lambda do
 		require 'parsefile'
     end
-
-	# Create folder for attachments
-	extras = lambda do |out_dir|
-	end
-
 	
   	path_params = {
 		path: @dir,
@@ -41,14 +36,13 @@ class GrabLoadFile
 	}
 
 	cm_hash = nil
+	extras = lambda do |output_dir|
+	end
 
-	puts "Getting documents: " + @dir
 	puts "Saving to: " + path_params[:output_dir]
 
-	# Taken from Harvester/app/crawlers/load_files.rb
     d = DirCrawl.new(path_params, parsefile, include, extras, cm_hash, path_params[:path], path_params[:output_dir], @tika)
   end
-
 end
 
 
