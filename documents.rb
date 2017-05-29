@@ -15,8 +15,12 @@ class GrabLoadFile
 
   # Load in docs
   def run
-
-	puts "Use Tika instance: " + @tika
+	# OCR server
+	if @tika
+		puts "using server: " + @tika
+	else
+		puts "using server: http://givemetect.okfnlabs.org"
+	end
 
     # Runs as "@process_block" in DirCrawl
     parsefile = lambda do |file, dir, output_dir, tika|
