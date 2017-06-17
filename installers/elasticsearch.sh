@@ -2,7 +2,11 @@
 # Install Elastic Search
 LINE="----------------------------------------------------------------"
 
-echo "Getting PGP key"
+echo "Installing Debian dependencies"
+sudo apt install openjdk-8-jre
+sleep 1
+
+echo "Getting ElasticSearch PGP key"
 wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 sleep 1
 echo $LINE
@@ -12,8 +16,13 @@ echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee 
 sleep 1
 echo $LINE
 
-echo "Updating & Installing Debian packages"
-sudo apt-get update && sudo apt-get install elasticsearch
+echo "Updating & Installing ElasticSearch"
+sudo apt update && sudo apt install elasticsearch
 sleep 1
 
 echo "All done. Hooray"
+echo "Run by typing: sudo service elasticsearch start"
+echo "You might need to lower / raise RAM in '/etc/elasticsearch/jvm.options'"
+echo "  -Xms1g" 
+echo "  -Xmx1g"
+
