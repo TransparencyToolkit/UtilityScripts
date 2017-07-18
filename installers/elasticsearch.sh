@@ -12,6 +12,7 @@ sleep 1
 echo $LINE
 
 echo "Adding ElasticSearch to APT sources"
+sudo rm /etc/apt/sources.list.d/elastic-5.x.list
 echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
 sleep 1
 echo $LINE
@@ -25,4 +26,3 @@ echo "Run by typing: sudo service elasticsearch start"
 echo "You might need to lower / raise RAM in '/etc/elasticsearch/jvm.options'"
 echo "  -Xms1g" 
 echo "  -Xmx1g"
-
