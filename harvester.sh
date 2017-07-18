@@ -16,11 +16,15 @@ function start() {
 	sudo service mongodb start
 	sleep 2
 	echo "Waiting..."
-	sleep 3
+	sleep 4
+
+	echo "Starting Elasticsearch"
+	sudo service elasticsearch start
+	sleep 2
 
 	# Start Tika --host=localhost --port=1234
 	echo "Starting Tika"
-	screen -S tika -dm bash -c 'java -jar tika-server/target/tika-server-*.jar; exec sh'
+	screen -S tika -dm bash -c 'java -jar /srv/tika-server-1.15.jar; exec sh'
 	sleep 2
 
 	echo "Starting DocManager in screen session"
@@ -34,10 +38,16 @@ function start() {
 	echo "Starting Harvester in screen session"
 	cd $TT_APPS/Harvester
 	screen -S harvester -dm bash -c 'rails server -b ${TT_HS_HOST} -p ${TT_HS_PORT}; exec sh'
+	sleep 3
+
+	echo "Starting Resque"
+	cd $TT_APPS/Harvester
+	screen -S resque -dm bash -c 'QUEUE=* rake environment resque:work; exec sh'
 	sleep 2
+
 	echo "You should now be able to access Harvester at:"
 	echo "	http://${TT_HS_HOST}:${TT_HS_PORT}"
-	sleep 4
+	sleep 1
 
 	echo "Harvester is running. Happy researching :)"
 }
@@ -53,6 +63,15 @@ function quit() {
 
 	echo "Stoping Tika"
 	screen -X -S tika quit
+	# for session in $(screen -ls | grep -o '[0-9]*\.harvester'); do screen -S "${session}" -X quit; done
+	sleep 1
+
+	echo "Stoping Resque"
+	screen -X -S resque quit
+	sleep 1
+
+	echo "Stoping Elasticsearch"
+	sudo service elasticsearch stop
 	sleep 1
 
 	echo "Stoping MongoDB"

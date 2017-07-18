@@ -6,10 +6,11 @@ sudo apt install mongodb
 sleep 1
 
 echo "Cloning DocManager"
-git clone git@github.com:TransparencyToolkit/DocManager
+PATH_DOCMANAGER="$TT_APPS/DocManager"
+git clone https://github.com/TransparencyToolkit/DocManager $PATH_DOCMANAGER
 sleep 1
 
-cd DocManger
+cd $PATH_DOCMANAGER
 bundle install
 sleep 1
 

@@ -9,8 +9,9 @@ sleep 1
 echo "Getting Looking Glass codebase"
 sleep 1
 
-git clone https://github.com/TransparencyToolkit/LookingGlass
-cd LookingGlass
+PATH_LG="$TT_APPS/LookingGlass"
+git clone https://github.com/TransparencyToolkit/LookingGlass $PATH_LG
+cd $PATH_LG
 sleep 1
 
 echo "Installing ruby gems"
