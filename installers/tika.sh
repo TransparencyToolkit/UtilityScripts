@@ -27,7 +27,7 @@ mvn -DskipTests=true clean install
 
 echo "Copying Tika binary"
 echo sudo cp $TT_APPS/tika-${TIKA_VER}/tika-server/target/tika-server-${TIKA_VER}.jar /srv/tika-server-${TIKA_VER}.jar
-ls -l /srv/tika-server-${TIKA_VER}-SNAPSHOT.jar
+ls -l /srv/tika-server-${TIKA_VER}.jar
 echo $LINE
 sleep 2
 
